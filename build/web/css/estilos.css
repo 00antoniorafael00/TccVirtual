@@ -1,0 +1,105 @@
+* {
+	margin: 0;
+	padding: 0;
+
+}
+
+body {
+	font-size: 16px;
+	font-family: "Century Gothic";
+	background: #F5FFE3;
+}
+
+#itens-menu {
+ 	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    
+	border-bottom: 7px solid #27912A;
+	height: 45px;
+
+	
+}
+
+
+
+li {
+    float: left;
+}
+
+li a {
+
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #27912A;
+}
+
+#cabecalho {
+	background: white;
+	
+
+}
+
+#logo {
+	padding-left: 30px;
+	height: 61px;
+	width: 220px;
+	position: relative;
+	
+	
+
+}
+#logoSia {
+
+	padding-left: 30px;
+	height: 61px;
+	width: 80px;
+	position: relative;
+	
+	
+
+}
+
+#titulo {
+	float:right;
+	margin-right: 50px;
+	font-size: 25px;
+	
+}
+
+
+
+#menu {
+	position: relative;
+	background: #2CA32F;
+	
+	width: 100%;
+	
+	
+}
+
+.conteudo {
+	position: relative;
+	background: #F7FFEE;
+	border-left: 2px dotted #DEE5D6;
+	border-right: 2px dotted #DEE5D6;
+
+	margin: 0px 50px 50px ;
+	height: 1080px;
+	
+
+}
+
+.verde {
+	color:#2CA32F;
+	font-size: 40px;
+}
+
+
