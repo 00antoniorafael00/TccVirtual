@@ -1,142 +1,186 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.edu.ifrs.modelo;
 
-import java.util.Date;
+import br.edu.ifrs.util.Conexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
-/**
- *
- * @author rafael
- */
+
 public class Banca {
       private int id;
-      private Date dataBanca;  //perguntar para Gleison
-      private Date horarioBanca; //perguntar para Gleison
+      private Calendar dataBanca;  
+      private Calendar horarioBanca; 
       private String modalidadeBanca;
       private int numeroSala;
-      private String situacao;
+      private char situacao;
       private Tcc tcc;
       private List<Professor> professoresBanca;
       
 
-    /**
-     * @return the id
-     */
+    
     public int getId() {
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
+    
     public void setId(int id) {
         this.id = id;
     }
 
 
-    /**
-     * @return the dataBanca
-     */
-    public Date getDataBanca() {
+    public Calendar getDataBanca() {
         return dataBanca;
     }
 
-    /**
-     * @param dataBanca the dataBanca to set
-     */
-    public void setDataBanca(Date dataBanca) {
+    public void setDataBanca(Calendar dataBanca) {
         this.dataBanca = dataBanca;
     }
 
-    /**
-     * @return the horarioBanca
-     */
-    public Date getHorarioBanca() {
+    
+    public Calendar getHorarioBanca() {
         return horarioBanca;
     }
 
-    /**
-     * @param horarioBanca the horarioBanca to set
-     */
-    public void setHorarioBanca(Date horarioBanca) {
+    
+    public void setHorarioBanca(Calendar horarioBanca) {
         this.horarioBanca = horarioBanca;
     }
 
-    /**
-     * @return the modalidadeBanca
-     */
+    
     public String getModalidadeBanca() {
         return modalidadeBanca;
     }
 
-    /**
-     * @param modalidadeBanca the modalidadeBanca to set
-     */
+    
     public void setModalidadeBanca(String modalidadeBanca) {
         this.modalidadeBanca = modalidadeBanca;
     }
 
-    /**
-     * @return the numeroSala
-     */
+   
     public int getNumeroSala() {
         return numeroSala;
     }
 
-    /**
-     * @param numeroSala the numeroSala to set
-     */
+    
     public void setNumeroSala(int numeroSala) {
         this.numeroSala = numeroSala;
     }
 
-    /**
-     * @return the situacao
-     */
-    public String getSituacao() {
+    public char getSituacao() {
         return situacao;
     }
-
-    /**
-     * @param situacao the situacao to set
-     */
-    public void setSituacao(String situacao) {
+    public void setSituacao(char situacao) {
         this.situacao = situacao;
     }
 
-    /**
-     * @return the tcc
-     */
+   
     public Tcc getTcc() {
         return tcc;
     }
 
-    /**
-     * @param tcc the tcc to set
-     */
+    
     public void setTcc(Tcc tcc) {
         this.tcc = tcc;
     }
 
-    /**
-     * @return the professoresBanca
-     */
+    
     public List<Professor> getProfessoresBanca() {
         return professoresBanca;
     }
 
-    /**
-     * @param professoresBanca the professoresBanca to set
-     */
+    
     public void setProfessoresBanca(List<Professor> professoresBanca) {
         this.professoresBanca = professoresBanca;
     }
       
       
+    
+    
+    public static Banca[] consultar (Usuario usuario) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        List<Banca> lista = new ArrayList();
+        List<Professor> avaliadores = new ArrayList();
+        
+        try {       
+
+            con = Conexao.abrirConexao();
+
+
+            pstmt = con.prepareStatement("SELECT * FROM bancas");
+
+                
+            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Banca b = new Banca();
+
+                b.setId(rs.getInt("id"));
+                b.setSituacao(rs.getString("situacao").charAt(0));
+                b.setProfessoresBanca(consultarAvaliadores (b.getId()));
+                              
+
+                lista.add(b);
+                
+            }
+            
+        } catch (Exception e) {
+            throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (con != null) con.close();
+        }
+        return lista.toArray(new Banca[0]);
+    }
+
+    
+    
+    public static List<Professor> consultarAvaliadores (int id) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        List<Professor> lista = new ArrayList();
+   
+        
+        try {       
+
+            con = Conexao.abrirConexao();
+
+
+            pstmt = con.prepareStatement("SELECT * FROM avaliadores_banca WHERE banca = ?");
+            pstmt.setInt(1, id);
+                
+            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.setMatricula(rs.getInt("professor"));
+           
+                Professor p = new Professor(u);
+        
+                lista.add(p);
+                
+            }
+            
+        } catch (Exception e) {
+            throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (con != null) con.close();
+        }
+        return lista;
+    }
+
+
+
 
 }

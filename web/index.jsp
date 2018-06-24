@@ -6,13 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="cabecalho.html" %>
+<%@include file="cabecalho.jsp" %>
 
-    <div class="conteudo">
+   
 
-        <p>Index index</p>
+    <p>Index index</p>
 
-    </div>
 
 
 <%@include file="rodape.html" %>

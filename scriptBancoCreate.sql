@@ -31,6 +31,8 @@ create table usuarios (
   primary key (matricula),
   foreign key (id_curso) references cursos(id)
 );
+use tcc_virtual;
+select * from usuarios;
 insert into usuarios (matricula, nome, sexo, email, senha, situacao, perfil, id_curso) values (1669375, 'Gleison Nascimento', 'M', 'gleison.nascimento@restinga.ifrs.edu.br', '123', 'A', 'ADMINISTRADOR', 1);
 insert into usuarios (matricula, nome, sexo, email, senha, situacao, perfil, id_curso) values (2009876, 'Rafael Esteves', 'M', 'rafael.esteves@restinga.ifrs.edu.br', '123', 'A', 'COORDENADOR', 1);
 insert into usuarios (matricula, nome, sexo, email, senha, situacao, perfil, id_curso) values (2098659, 'Alexsandro Bonatto', 'M', 'alexsandro.bonatto@restinga.ifrs.edu.br', '123', 'A', 'COORDENADOR', 2);

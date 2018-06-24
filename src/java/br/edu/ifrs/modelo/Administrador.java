@@ -1,14 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.edu.ifrs.modelo;
 
-/**
- *
- * @author rafael
- */
 public class Administrador extends Usuario{
+
+    public Administrador(Usuario u) {
+        super(u.getMatricula(), u.getNome(),u.getSexo(), u.getEnderecoResidencial(), u.getEmail(), u.getTelefoneResidencial(),
+                 u.getTelefoneProfissional(), u.getTelefoneCelular(), u.getSenha(), u.getSituacao(), u.getObservacoes(), u.getCurso()
+        );
+                
+                
+    }
+    
+
     
 }

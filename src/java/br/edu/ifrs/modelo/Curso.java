@@ -1,123 +1,98 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.edu.ifrs.modelo;
 
-/**
- *
- * @author rafael
- */
+import br.edu.ifrs.util.Conexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+
 public class Curso {
       private int id;
       private String nome;
       private String descricao;
-      private String periodoIntegralizacao;
-      private String cargaHoraria;
-      private String situacao;
-      private Coordenador coordenador;
+      private int periodoIntegralizacao;
+      private int cargaHoraria;
+      private char situacao;
 
-  
-  
-    /**
-     * @return the id
-     */
     public int getId() {
         return id;
     }
-
-    /**
-     * @param id the id to set
-     */
     public void setId(int id) {
         this.id = id;
     }
-
-    /**
-     * @return the nome
-     */
     public String getNome() {
         return nome;
     }
-
-    /**
-     * @param nome the nome to set
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    /**
-     * @return the descricao
-     */
     public String getDescricao() {
         return descricao;
     }
-
-    /**
-     * @param descricao the descricao to set
-     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    /**
-     * @return the periodoIntegralizacao
-     */
-    public String getPeriodoIntegralizacao() {
+    public int getPeriodoIntegralizacao() {
         return periodoIntegralizacao;
     }
-
-    /**
-     * @param periodoIntegralizacao the periodoIntegralizacao to set
-     */
-    public void setPeriodoIntegralizacao(String periodoIntegralizacao) {
+    public void setPeriodoIntegralizacao(int periodoIntegralizacao) {
         this.periodoIntegralizacao = periodoIntegralizacao;
     }
-
-    /**
-     * @return the cargaHoraria
-     */
-    public String getCargaHoraria() {
+    public int getCargaHoraria() {
         return cargaHoraria;
     }
-
-    /**
-     * @param cargaHoraria the cargaHoraria to set
-     */
-    public void setCargaHoraria(String cargaHoraria) {
+    public void setCargaHoraria(int cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
     }
-
-    /**
-     * @return the situacao
-     */
-    public String getSituacao() {
+    public char getSituacao() {
         return situacao;
     }
-
-    /**
-     * @param situacao the situacao to set
-     */
-    public void setSituacao(String situacao) {
+    public void setSituacao(char situacao) {
         this.situacao = situacao;
     }
 
-    /**
-     * @return the coordenador
-     */
-    public Coordenador getCoordenador() {
-        return coordenador;
-    }
+      
+      
+    
+    public static Curso consultar (int id) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Curso c = new Curso();
+        
+        try {
+            try {
+                con = Conexao.abrirConexao();
 
-    /**
-     * @param coordenador the coordenador to set
-     */
-    public void setCoordenador(Coordenador coordenador) {
-        this.coordenador = coordenador;
+                
+                pstmt = con.prepareStatement("select * from cursos where id = ?");
+                pstmt.setInt(1, id);
+                
+            
+                rs = pstmt.executeQuery();
+                if (rs.next() == true) {
+                    c.setId(rs.getInt("id"));
+                    c.setNome(rs.getString("nome"));
+                    c.setDescricao(rs.getString("descricao"));
+                    c.setPeriodoIntegralizacao(rs.getInt("periodo_integralizacao"));
+                    c.setCargaHoraria(rs.getInt("carga_horaria"));
+                    c.setSituacao(rs.getString("situacao").charAt(0));   
+                                        
+                }
+            } catch (Exception e) {
+                throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
+            } finally {
+                pstmt.close();
+                con.close();
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+        
+        return c;
     }
     
-    
+       
 }
 
