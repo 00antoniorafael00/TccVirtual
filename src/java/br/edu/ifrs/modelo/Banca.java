@@ -138,9 +138,9 @@ public class Banca {
                 
                 
                 Calendar hora = Calendar.getInstance();
-                java.sql.Date horaDate = rs.getDate("horario_banca");
-                hora.setTime(new java.util.Date(dataDate.getTime()));
-                b.setHorarioBanca(data);
+                java.sql.Time horaTime = rs.getTime("horario_banca");
+                hora.setTime(new java.util.Date(horaTime.getTime()));
+                b.setHorarioBanca(hora);
                
                 b.setModalidadeBanca(rs.getString("modalidade_banca"));
                 
