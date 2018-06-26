@@ -121,13 +121,37 @@ public class Banca {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                
                 Banca b = new Banca();
-
+                
+                
                 b.setId(rs.getInt("id"));
+                
+                Tcc tcc = new Tcc();
+                
+                b.setTcc(tcc.consultar(rs.getInt("tcc")));
+                
+                Calendar data = Calendar.getInstance();
+                java.sql.Date dataDate = rs.getDate("data_banca");
+                data.setTime(new java.util.Date(dataDate.getTime()));
+                b.setDataBanca(data);
+                
+                
+                Calendar hora = Calendar.getInstance();
+                java.sql.Date horaDate = rs.getDate("horario_banca");
+                hora.setTime(new java.util.Date(dataDate.getTime()));
+                b.setHorarioBanca(data);
+               
+                b.setModalidadeBanca(rs.getString("modalidade_banca"));
+                
+                b.setNumeroSala(rs.getInt("numero_sala"));               
+                
                 b.setSituacao(rs.getString("situacao").charAt(0));
+                
                 b.setProfessoresBanca(consultarAvaliadores (b.getId()));
                               
 
+                
                 lista.add(b);
                 
             }

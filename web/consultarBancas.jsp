@@ -1,13 +1,23 @@
+<%@page import="br.edu.ifrs.modelo.Professor"%>
+<%@page import="br.edu.ifrs.modelo.Coordenador"%>
+<%@page import="br.edu.ifrs.modelo.Administrador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="cabecalho.jsp" %>
+    <%
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    %>
     
-    <form action="BancaControle">        
-        <input type="hidden" name="op" value="CONSULTAR">
-        <input class="button" type="submit" value="Consultar">
+    <%
+        if (usuario instanceof Administrador || usuario instanceof Professor){
+    %>
+        <form action="BancaControle">        
+            <input type="hidden" name="op" value="CONSULTAR">
+            <input class="button" type="submit" value="Consultar">
 
-    </form>
-
-
+        </form>
+    <%
+    }
+    %>
  
             
 

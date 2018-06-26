@@ -20,7 +20,7 @@
         %>
         
         <%
-            if (usuario instanceof Administrador || usuario instanceof Coordenador || usuario instanceof Professor){
+            if (usuario instanceof Administrador || usuario instanceof Professor){
         %>
         <p><a href="consultarBancas.jsp">Consultar Banca</a></p>        
         <%

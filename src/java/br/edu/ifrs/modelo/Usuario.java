@@ -189,5 +189,65 @@ public class Usuario {
 
 
     }
+    
+    
+    
+    public static Estudante consultarEstudante(int matricula) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Usuario u = null;
+        String perfil = "";
+        Curso c = null;
+        try {
+           
+                con = Conexao.abrirConexao();
+
+          
+                pstmt = con.prepareStatement("SELECT * FROM usuarios WHERE matricula = ?");
+                pstmt.setInt(1, matricula);
+      
+                
+               
+                rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    u = new Usuario();
+
+                    u.setMatricula(rs.getInt("matricula"));
+                    u.setNome(rs.getString("nome"));
+                    u.setSexo(rs.getString("sexo").charAt(0));
+                    u.setEnderecoResidencial(rs.getString("endereco_residencial"));
+                    u.setEmail(rs.getString("email"));
+                    u.setTelefoneResidencial(rs.getString("telefone_residencial"));
+                    u.setTelefoneProfissional(rs.getString("telefone_profissional"));
+                    u.setTelefoneCelular(rs.getString("telefone_celular"));
+//                    u.setSenha(rs.getString("senha"));
+                    u.setSituacao(rs.getString("situacao").charAt(0));
+                    u.setObservacoes(rs.getString("observacoes"));
+
+                    c = new Curso();
+                    c = c.consultar(rs.getInt("id_curso"));                    
+                    u.setCurso(c);
+                    
+                    perfil = rs.getString("perfil");
+                    
+                   
+            
+                }
+            } catch (Exception e) {
+                throw new Exception("Falha ao autenticar o usuário no Banco de Dados.<br><!--" + e.getMessage() + "-->");
+            } finally {
+                pstmt.close();
+                con.close();
+            }
+        
+
+            if (perfil.equalsIgnoreCase("ESTUDANTE"))
+                return new Estudante(u);
+            else
+                throw new Exception("Perfil não é estudante");
+
+
+    }
 
 }

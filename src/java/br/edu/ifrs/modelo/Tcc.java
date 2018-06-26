@@ -1,6 +1,10 @@
 
 package br.edu.ifrs.modelo;
 
+import br.edu.ifrs.util.Conexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Tcc {
      private int id;
@@ -129,7 +133,41 @@ public class Tcc {
 
 
 
+    public static Tcc consultar (int id) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        Tcc t = new Tcc();
+        
+        try {       
 
+            con = Conexao.abrirConexao();
+
+
+            pstmt = con.prepareStatement("SELECT * FROM tccs WHERE id = ?");
+            pstmt.setInt(1, id);
+                
+            
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                                
+                t.setId(rs.getInt("id"));
+                t.setTitulo(rs.getString("titulo"));
+                
+                Estudante autor = new Estudante();
+                t.setAutor(autor.consultarEstudante(rs.getInt("estudante")));                
+                
+            }
+            
+        } catch (Exception e) {
+            throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (con != null) con.close();
+        }
+        return t;
+    }
      
      
 }
