@@ -20,7 +20,8 @@
                 <th>Data</th>
                 <th>Hora</th>
                 <th>Situação</th>                
-                <th>Aprovar Participação</th>               
+                <th>Aprovar Participação</th>     
+                <th>Editar Banca</th>   
             </tr>
             <%
                 Banca[] bancas = (Banca[])request.getAttribute("bancas");
@@ -56,6 +57,11 @@
                     }
                 %>
                 </td>
+                <td>
+                    <% // Caso de uso 29 - Editar Banca %>
+                </td>
+                
+                
             </tr>
             <%
                 }
