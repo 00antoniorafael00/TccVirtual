@@ -26,6 +26,12 @@
             <%
                 Banca[] bancas = (Banca[])request.getAttribute("bancas");
                 for (Banca banca : bancas) {
+                    
+                DateFormat data = new SimpleDateFormat("dd/MM/yyyy");  
+                String sData = data.format(banca.getDataBanca().getTime());
+                
+                DateFormat hora = new SimpleDateFormat("HH:mm");  
+                String sHora = hora.format(banca.getHorarioBanca().getTime());
             %>
             <tr>
                 <td><%= banca.getId() %>
@@ -36,9 +42,9 @@
                 </td>
                 <td><%= banca.getModalidadeBanca() %>
                 </td>      
-                <td><%= banca.getDataBanca().getTime() %>
+                <td><%= sData %>
                 </td>
-                <td><%= banca.getHorarioBanca().getTime() %>
+                <td><%= sHora %>
                 </td>
                 <td><%= banca.getSituacao() %>
                 </td>  
