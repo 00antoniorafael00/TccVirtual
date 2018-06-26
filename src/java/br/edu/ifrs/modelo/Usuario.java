@@ -192,7 +192,7 @@ public class Usuario {
     
     
     
-    public static Estudante consultarEstudante(int matricula) throws Exception {
+    public static Usuario pesquisar(int matricula) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -242,11 +242,8 @@ public class Usuario {
             }
         
 
-            if (perfil.equalsIgnoreCase("ESTUDANTE"))
-                return new Estudante(u);
-            else
-                throw new Exception("Perfil não é estudante");
-
+                return u;
+       
 
     }
 

@@ -156,7 +156,7 @@ public class Tcc {
                 t.setTitulo(rs.getString("titulo"));
                 
                 Estudante autor = new Estudante();
-                t.setAutor(autor.consultarEstudante(rs.getInt("estudante")));                
+                t.setAutor(new Estudante ( autor.pesquisar(rs.getInt("estudante"))) );                
                 
             }
             

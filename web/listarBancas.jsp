@@ -48,7 +48,7 @@
                         for (Professor professor : banca.getProfessoresBanca()) {
                             if (professor.getMatricula() == usuario.getMatricula()){ 
                 %>                                                         
-                            <a href="#">Aprovar Participação</a>
+                            <a href="BancaControle?banca=<%=banca.getId()%>&op=APROVACAO">Aprovar Participação</a>
                             
                 <%
                             break;

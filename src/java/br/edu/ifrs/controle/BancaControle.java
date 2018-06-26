@@ -41,7 +41,8 @@ public class BancaControle extends HttpServlet {
 
         if(op.equals("CADASTRAR")) cadastrar(request, response);
         else if(op.equals("CONSULTAR")) consultar(request, response);
-        else if(op.equals("APROVAR")) aprovarParticipacao(request, response);
+        else if(op.equals("APROVACAO")) formularioAprovacao(request, response);
+        else if(op.equals("APROVAR")) aprovar(request, response);
         else if(op.equals("EDITAR")) editar(request, response);
         
                
@@ -84,9 +85,14 @@ public class BancaControle extends HttpServlet {
 
     }
     
-    protected void aprovarParticipacao(HttpServletRequest request, HttpServletResponse response)
+    protected void formularioAprovacao(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-
+        
+    }    
+    
+    protected void aprovar(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        
     }    
     protected void editar(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
