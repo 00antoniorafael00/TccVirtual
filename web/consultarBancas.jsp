@@ -10,9 +10,17 @@
     <%
         if (usuario instanceof Administrador || usuario instanceof Professor){
     %>
+        <h1>Consultar Banca</h1> <br/>
         <form action="BancaControle">        
             <input type="hidden" name="op" value="CONSULTAR">
+            <label for="titulo">Titulo: </label><br>
+            <input type="text" name="titulotcc" id="titulotcc" value=""><br><br>
+            <label for="curso">Curso: </label><br>
+            <input type="text" name="curso" id="curso" value=""><br><br>
+            
+            
             <input class="button" type="submit" value="Consultar">
+            
 
         </form>
     <%

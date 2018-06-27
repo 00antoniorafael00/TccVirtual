@@ -66,10 +66,16 @@ public class BancaControle extends HttpServlet {
             Banca[] bcs = null;            
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            String titulo = request.getParameter("titulotcc");
+            String curso = request.getParameter("curso");
 
             Banca b = new Banca();
-            bcs = b.consultar(usuario);
-
+            if (!titulo.isEmpty()){
+                bcs = b.consultar(usuario, titulo, null);
+            } else {
+                bcs = b.consultar(usuario, null, curso);
+            }
+            
             request.setAttribute("bancas", bcs);
 
             RequestDispatcher r = request.getRequestDispatcher("listarBancas.jsp");

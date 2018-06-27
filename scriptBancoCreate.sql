@@ -108,3 +108,15 @@ insert into avaliadores_banca values (2, 1234568, 'Bal bla bla', '2018-07-21', '
 
 
 
+use tcc_virtual;
+
+
+
+
+SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) 
+                        JOIN usuarios u ON (u.matricula = t.estudante) 
+                        JOIN cursos c ON (u.id_curso = c.id) 
+                        WHERE c.nome = 'Análise e Desenvolvimento de Sistemas';
+
+
+SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) WHERE t.titulo = 'Agora vai!!!';

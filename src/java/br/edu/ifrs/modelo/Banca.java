@@ -102,7 +102,7 @@ public class Banca {
       
     
     
-    public static Banca[] consultar (Usuario usuario) throws Exception {
+    public static Banca[] consultar (Usuario usuario, String titulo, String curso) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs;
@@ -112,14 +112,24 @@ public class Banca {
         try {       
 
             con = Conexao.abrirConexao();
-
-
-            pstmt = con.prepareStatement("SELECT * FROM bancas");
-
+            
+            if (titulo != null){
+                pstmt = con.prepareStatement("SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) WHERE t.titulo = ?");
+                pstmt.setString(1, titulo);
+            
+            } else {
+                pstmt = con.prepareStatement("SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) "
+                        + "JOIN usuarios u ON (u.matricula = t.estudante) "
+                        + "JOIN cursos c ON (u.id_curso = c.id) "
+                        + "WHERE c.nome = ?");
+                pstmt.setString(1, curso);
+                
+            }
+            
                 
             
             rs = pstmt.executeQuery();
-
+            
             while (rs.next()) {
                 
                 Banca b = new Banca();
