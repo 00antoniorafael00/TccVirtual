@@ -95,16 +95,17 @@ create table avaliadores_banca (
   avaliacao text,
   data_avaliacao datetime,
   situacao varchar(1),
+  participacao boolean,
   primary key (banca, professor),
   foreign key (banca) references bancas(id),
   foreign key (professor) references usuarios(matricula)
 );
-insert into avaliadores_banca values (1, 1234568, 'Bal bla bla', '2018-07-21', 'A');
-insert into avaliadores_banca values (1, 1669375, 'Bal bla bla', '2018-07-21', 'A');
-insert into avaliadores_banca values (1, 1234569, 'Bal bla bla', '2018-07-21', 'A');
-insert into avaliadores_banca values (2, 1234567, 'Bal bla bla', '2018-07-21', 'A');
-insert into avaliadores_banca values (2, 2009876, 'Bal bla bla', '2018-07-21', 'A');
-insert into avaliadores_banca values (2, 1234568, 'Bal bla bla', '2018-07-21', 'A');
+insert into avaliadores_banca values (1, 1234568, 'Bal bla bla', '2018-07-21', 'A', false);
+insert into avaliadores_banca values (1, 1669375, 'Bal bla bla', '2018-07-21', 'A', false);
+insert into avaliadores_banca values (1, 1234569, 'Bal bla bla', '2018-07-21', 'A', false);
+insert into avaliadores_banca values (2, 1234567, 'Bal bla bla', '2018-07-21', 'A', false);
+insert into avaliadores_banca values (2, 2009876, 'Bal bla bla', '2018-07-21', 'A', false);
+insert into avaliadores_banca values (2, 1234568, 'Bal bla bla', '2018-07-21', 'A', false);
 
 
 
@@ -120,3 +121,6 @@ SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id)
 
 
 SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) WHERE t.titulo = 'Agora vai!!!';
+
+
+UPDATE avaliadores_banca SET participacao = true WHERE banca = 1 AND professor = 1234568

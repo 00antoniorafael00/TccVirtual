@@ -43,6 +43,7 @@ public class BancaControle extends HttpServlet {
         else if(op.equals("CONSULTAR")) consultar(request, response);
         else if(op.equals("APROVACAO")) formularioAprovacao(request, response);
         else if(op.equals("APROVAR")) aprovar(request, response);
+        else if(op.equals("NEGAR")) negar(request, response);
         else if(op.equals("EDITAR")) editar(request, response);
         
                
@@ -92,14 +93,69 @@ public class BancaControle extends HttpServlet {
     }
     
     protected void formularioAprovacao(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+        throws ServletException, IOException, Exception {
+        
+            int id = Integer.parseInt(request.getParameter("idbanca"));
+        
+            Banca b = new Banca();            
+
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+            b = b.consultar(id);
+
+            request.setAttribute("banca", b);
+
+            RequestDispatcher r = request.getRequestDispatcher("aprovarParticipacao.jsp");
+
+            r.forward(request, response);
         
     }    
     
     protected void aprovar(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+        throws ServletException, IOException, Exception {
         
-    }    
+            int id = Integer.parseInt(request.getParameter("idbanca"));
+        
+            Banca b = new Banca();            
+
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+            b = b.aprovarParticipacaoBanca(id, usuario, true);        
+            
+            request.setAttribute("banca", b);
+
+            RequestDispatcher r = request.getRequestDispatcher("bancaAprovada.jsp");
+
+            r.forward(request, response);     
+        
+        
+        
+    }       
+    
+     protected void negar(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException, Exception {
+        
+            int id = Integer.parseInt(request.getParameter("idbanca"));
+        
+            Banca b = new Banca();            
+
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+            b = b.aprovarParticipacaoBanca(id, usuario, false);        
+            
+            request.setAttribute("banca", b);
+
+            RequestDispatcher r = request.getRequestDispatcher("bancaNegada.jsp");
+
+            r.forward(request, response);     
+        
+        
+        
+    }       
+    
+    
+    
+    
     protected void editar(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 

@@ -13,9 +13,9 @@ public class Tcc {
      private String areaPrincipal; 
      private String areaSecundaria;
      private String resumo;
-     private String situacao;
-     private String versaoFinal;
-     private String versaoBanca;
+     private char situacao;
+     private boolean versaoFinal;
+     private boolean versaoBanca;
      private Estudante autor;
      private Orientador orientador;
 
@@ -82,35 +82,31 @@ public class Tcc {
     }
 
    
-    public String getSituacao() {
+    public char getSituacao() {
         return situacao;
     }
 
     
-    public void setSituacao(String situacao) {
+    public void setSituacao(char situacao) {
         this.situacao = situacao;
     }
 
     
-    public String getVersaoFinal() {
+    public boolean isVersaoFinal() {
         return versaoFinal;
     }
-
-    
-    public void setVersaoFinal(String versaoFinal) {
+    public void setVersaoFinal(boolean versaoFinal) {
         this.versaoFinal = versaoFinal;
     }
 
-    
-    public String getVersaoBanca() {
+    public boolean isVersaoBanca() {
         return versaoBanca;
     }
-
-   
-    public void setVersaoBanca(String versaoBanca) {
+    public void setVersaoBanca(boolean versaoBanca) {
         this.versaoBanca = versaoBanca;
     }
-
+    
+    
    
     public Estudante getAutor() {
         return autor;
@@ -154,9 +150,24 @@ public class Tcc {
                                 
                 t.setId(rs.getInt("id"));
                 t.setTitulo(rs.getString("titulo"));
+                t.setPalavrasChaves(rs.getString("palavras_chaves"));
+                t.setAreaPrincipal(rs.getString("area_principal"));
+                t.setAreaSecundaria(rs.getString("area_secundaria"));
+                t.setResumo(rs.getString("resumo"));
+                t.setSituacao(rs.getString("situacao").charAt(0));
+                t.setVersaoFinal(rs.getBoolean("versao_final"));
+                t.setVersaoBanca(rs.getBoolean("versao_banca"));
                 
-                Estudante autor = new Estudante();
-                t.setAutor(new Estudante ( autor.pesquisar(rs.getInt("estudante"))) );                
+                Usuario autor = new Usuario();                
+                autor = autor.pesquisar(rs.getInt("estudante")); 
+                t.setAutor( new Estudante(autor) );  
+                
+                Usuario orientador = new Usuario();                
+                orientador = orientador.pesquisar(rs.getInt("orientador")); 
+                t.setOrientador( new Orientador( new Professor(orientador) ) );
+                                
+                
+                
                 
             }
             
@@ -168,6 +179,6 @@ public class Tcc {
         }
         return t;
     }
-     
-     
+
+ 
 }

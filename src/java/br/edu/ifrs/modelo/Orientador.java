@@ -8,5 +8,8 @@ public class Orientador extends Professor{
         super(u);
     }
  
-    
+    public Orientador() {
+        super();
+    }
+ 
 }

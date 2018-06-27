@@ -9,6 +9,10 @@ public class Professor extends Usuario{
                  u.getTelefoneProfissional(), u.getTelefoneCelular(), u.getSenha(), u.getSituacao(), u.getObservacoes(), u.getCurso()
         );
     }
+
+    public Professor() {
+        super();
+    }
     
     
     

@@ -13,7 +13,6 @@
         <br>
         <table border="1">
             <tr>
-                <th>Id</th>
                 <th>Título do Trabalho</th>
                 <th>Autor</th>
                 <th>Modalidade</th>
@@ -34,8 +33,7 @@
                 String sHora = hora.format(banca.getHorarioBanca().getTime());
             %>
             <tr>
-                <td><%= banca.getId() %>
-                </td>
+
                 <td><%= banca.getTcc().getTitulo() %>
                 </td>
                 <td><%= banca.getTcc().getAutor().getNome() %>
@@ -54,7 +52,7 @@
                         for (Professor professor : banca.getProfessoresBanca()) {
                             if (professor.getMatricula() == usuario.getMatricula()){ 
                 %>                                                         
-                            <a href="BancaControle?banca=<%=banca.getId()%>&op=APROVACAO">Aprovar Participação</a>
+                            <a href="BancaControle?idbanca=<%=banca.getId()%>&op=APROVACAO">Aprovar Participação</a>
                             
                 <%
                             break;
