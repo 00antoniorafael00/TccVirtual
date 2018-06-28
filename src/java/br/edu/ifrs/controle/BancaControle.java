@@ -66,17 +66,16 @@ public class BancaControle extends HttpServlet {
 
             Banca[] bcs = null;            
 
-            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             String titulo = request.getParameter("titulotcc");
             String curso = request.getParameter("curso");
 
             Banca b = new Banca();
-            if (!titulo.isEmpty()){
-                bcs = b.consultar(usuario, titulo, null);
-            } else {
-                bcs = b.consultar(usuario, null, curso);
-            }
-            
+//            if (!titulo.isEmpty()){
+                bcs = b.consultar(titulo, null);        // # metodo consulta no banco de dados a banca por titulo
+//            } else {
+//                bcs = b.consultar(null, curso);
+//            }
+//            
             request.setAttribute("bancas", bcs);
 
             RequestDispatcher r = request.getRequestDispatcher("listarBancas.jsp");
@@ -97,13 +96,13 @@ public class BancaControle extends HttpServlet {
         
             int id = Integer.parseInt(request.getParameter("idbanca"));
         
-            Banca b = new Banca();            
+            Banca banca = new Banca();            
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-            b = b.consultar(id);
+            banca = banca.consultar(id);            // retorna uma banca pelo id
 
-            request.setAttribute("banca", b);
+            request.setAttribute("banca", banca);
 
             RequestDispatcher r = request.getRequestDispatcher("aprovarParticipacao.jsp");
 
@@ -120,7 +119,7 @@ public class BancaControle extends HttpServlet {
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-            b = b.aprovarParticipacaoBanca(id, usuario, true);        
+            b = b.aprovarParticipacaoBanca(id, usuario, true);      // # metodo que edita participacao de profesor na banca nesse caso para true  
             
             request.setAttribute("banca", b);
 
@@ -141,7 +140,7 @@ public class BancaControle extends HttpServlet {
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-            b = b.aprovarParticipacaoBanca(id, usuario, false);        
+            b = b.aprovarParticipacaoBanca(id, usuario, false);       // metodo que edita participacao de profesor na banca nesse caso para false
             
             request.setAttribute("banca", b);
 

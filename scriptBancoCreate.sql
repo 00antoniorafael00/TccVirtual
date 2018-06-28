@@ -106,3 +106,10 @@ insert into avaliadores_banca values (1, 1234569, 'Bal bla bla', '2018-07-21', '
 insert into avaliadores_banca values (2, 1234567, 'Bal bla bla', '2018-07-21', 'A', false);
 insert into avaliadores_banca values (2, 2009876, 'Bal bla bla', '2018-07-21', 'A', false);
 insert into avaliadores_banca values (2, 1234568, 'Bal bla bla', '2018-07-21', 'A', false);
+
+
+
+use tcc_virtual;
+select * from avaliadores_banca where banca =1;
+select * from bancas;
+

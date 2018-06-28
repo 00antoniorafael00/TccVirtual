@@ -101,7 +101,7 @@ public class Banca {
       
     
     
-     public static Banca[] consultar (Usuario usuario, String titulo, String curso) throws Exception {
+     public static Banca[] consultar (String titulo, String curso) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs;
@@ -112,18 +112,17 @@ public class Banca {
 
             con = Conexao.abrirConexao();
             
-            if (titulo != null){
-                pstmt = con.prepareStatement("SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) WHERE t.titulo = ?");
+//            if (titulo != null){
+                pstmt = con.prepareStatement("SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) WHERE t.titulo = ?");   //seleciona na tabela banca pelo titulo da tabela tcc    
                 pstmt.setString(1, titulo);
             
-            } else {
-                pstmt = con.prepareStatement("SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) "
-                        + "JOIN usuarios u ON (u.matricula = t.estudante) "
-                        + "JOIN cursos c ON (u.id_curso = c.id) "
-                        + "WHERE c.nome = ?");
-                pstmt.setString(1, curso);
-                
-            }
+//            } else {
+//                pstmt = con.prepareStatement("SELECT * FROM bancas b JOIN tccs t ON (b.tcc = t.id) "
+//                        + "JOIN usuarios u ON (u.matricula = t.estudante) "
+//                        + "JOIN cursos c ON (u.id_curso = c.id) "
+//                        + "WHERE c.nome = ?");
+//                pstmt.setString(1, curso);                
+//            }
             
                 
             
@@ -135,10 +134,6 @@ public class Banca {
                 
                 
                 b.setId(rs.getInt("id"));
-                
-                Tcc tcc = new Tcc();
-                
-                b.setTcc(tcc.consultar(rs.getInt("tcc")));
                 
                 Calendar data = Calendar.getInstance();
                 java.sql.Date dataDate = rs.getDate("data_banca");
@@ -157,11 +152,16 @@ public class Banca {
                 
                 b.setSituacao(rs.getString("situacao").charAt(0));
                 
-                b.setProfessoresBanca(consultarAvaliadores (b.getId()));
+                
+                Tcc tcc = new Tcc();
+                
+                b.setTcc(tcc.consultar(rs.getInt("tcc")));          // # metodo que retorna tcc a partir de id
+                
+                b.setProfessoresBanca(consultarAvaliadores (b.getId()));    // # metodo que retorna avaliadores de avaliadores
                               
 
                 
-                lista.add(b);
+                lista.add(b);   // adiciona banca no array de bancas
                 
             }
             
@@ -171,15 +171,53 @@ public class Banca {
             if (pstmt != null) pstmt.close();
             if (con != null) con.close();
         }
-        return lista.toArray(new Banca[0]);
+        return lista.toArray(new Banca[0]); // retorna array de bancas
     }
+     
+     
+    public static List<Professor> consultarAvaliadores (int id) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        List<Professor> avaliadores = new ArrayList();
+   
+        
+        try {       
 
+            con = Conexao.abrirConexao();
+
+
+            pstmt = con.prepareStatement("SELECT * FROM avaliadores_banca WHERE banca = ?");            // verifica pelo id da banca seus avaliadores (tabela que relaciona avaliadores a bancas)
+            pstmt.setInt(1, id);
+                
+            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u = u.pesquisar(rs.getInt("professor"));            // metodo que retorna usuario pela matricula                
+                
+           
+                Professor prof = new Professor(u);
+        
+                avaliadores.add(prof);    // adiciona professor a lista de avaliadoes da banca
+                
+            }
+            
+        } catch (Exception e) {
+            throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (con != null) con.close();
+        }
+        return avaliadores;       // retorna lista avaliadores
+    }
     
     public static Banca consultar (int id) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs;
-        Banca b = new Banca();
+        Banca banca = new Banca();
         List<Professor> avaliadores = new ArrayList();
         
         try {       
@@ -195,30 +233,30 @@ public class Banca {
 
             if (rs.next()) {
                 
-                b.setId(rs.getInt("id"));
+                banca.setId(rs.getInt("id"));
                 
                 Tcc tcc = new Tcc();
                 
-                b.setTcc(tcc.consultar(rs.getInt("tcc")));
+                banca.setTcc(tcc.consultar(rs.getInt("tcc")));
                 
                 Calendar data = Calendar.getInstance();
                 java.sql.Date dataDate = rs.getDate("data_banca");
                 data.setTime(new java.util.Date(dataDate.getTime()));
-                b.setDataBanca(data);
+                banca.setDataBanca(data);
                 
                 
                 Calendar hora = Calendar.getInstance();
                 java.sql.Time horaTime = rs.getTime("horario_banca");
                 hora.setTime(new java.util.Date(horaTime.getTime()));
-                b.setHorarioBanca(hora);
+                banca.setHorarioBanca(hora);
                
-                b.setModalidadeBanca(rs.getString("modalidade_banca"));
+                banca.setModalidadeBanca(rs.getString("modalidade_banca"));
                 
-                b.setNumeroSala(rs.getInt("numero_sala"));               
+                banca.setNumeroSala(rs.getInt("numero_sala"));               
                 
-                b.setSituacao(rs.getString("situacao").charAt(0));
+                banca.setSituacao(rs.getString("situacao").charAt(0));
                 
-                b.setProfessoresBanca(consultarAvaliadores (b.getId()));
+                banca.setProfessoresBanca(consultarAvaliadores (banca.getId()));
                              
                 
             }
@@ -230,59 +268,24 @@ public class Banca {
             if (con != null) con.close();
         }
         
-        return b;
+        return banca;
     }
     
-    public static List<Professor> consultarAvaliadores (int id) throws Exception {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs;
-        List<Professor> lista = new ArrayList();
-   
-        
-        try {       
 
-            con = Conexao.abrirConexao();
-
-
-            pstmt = con.prepareStatement("SELECT * FROM avaliadores_banca WHERE banca = ?");
-            pstmt.setInt(1, id);
-                
-            
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Usuario u = new Usuario();
-                u.setMatricula(rs.getInt("professor"));
-           
-                Professor p = new Professor(u);
-        
-                lista.add(p);
-                
-            }
-            
-        } catch (Exception e) {
-            throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
-        } finally {
-            if (pstmt != null) pstmt.close();
-            if (con != null) con.close();
-        }
-        return lista;
-    }
     
     
     public static Banca aprovarParticipacaoBanca (int id, Usuario avaliador, boolean aprova) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
-        Banca b = new Banca();
+        Banca banca = new Banca();
         
         
         try {       
-            b = b.consultar (id);
+            banca = banca.consultar (id);
             
             con = Conexao.abrirConexao();
-            
-            if (aprova == true){
+            ;
+            if (aprova == true){            // verifica se for aprovada a participacao se sim: participacao = true
                 pstmt = con.prepareStatement("UPDATE avaliadores_banca SET participacao = true WHERE banca = ? AND professor = ?"); 
             } else {
                 pstmt = con.prepareStatement("UPDATE avaliadores_banca SET participacao = false WHERE banca = ? AND professor = ?");
@@ -303,26 +306,26 @@ public class Banca {
             if (con != null) con.close();
         }
         
-        situacaoBanca(b);
+        situacaoBanca(banca);       // # metodo que avalia Se todos avaliadores aprovaram participacao ele atualiza Situacao para “Confirmada”.
 
         
-        return b;
+        return banca;
     }
     
     
     
-    public static void situacaoBanca (Banca b) throws Exception {
+    public static void situacaoBanca (Banca banca) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
-        ArrayList<Boolean> participacoes = new ArrayList();
+        ArrayList<Boolean> participacoes = new ArrayList();         // lista de booleans de confirmacao de participacao
         ResultSet rs;
         
         try {       
             
             con = Conexao.abrirConexao();
             
-            pstmt = con.prepareStatement("SELECT participacao FROM avaliadores_banca WHERE banca = ?");
-            pstmt.setInt(1, b.getId());
+            pstmt = con.prepareStatement("SELECT participacao FROM avaliadores_banca WHERE banca = ?");        // verifica a participacao de todos os avaliadores
+            pstmt.setInt(1, banca.getId());
                 
             
             rs = pstmt.executeQuery();
@@ -343,8 +346,8 @@ public class Banca {
         }
         
         
-        if (!participacoes.contains(false)){            // Se todos avaliadores aprovaram sua participação
-           atualizaSituacao (b); 
+        if (!participacoes.contains(false)){            // Se todos avaliadores aprovaram sua participação (nao existir nenhum false na lista)
+           atualizaSituacao (banca);    // metodo que atualiza a situacao da banca como confirmada
         }
 
        

@@ -3,17 +3,8 @@
 
 
     <h1>Login</h1>
-    <br>
-    <%
-        if (request.getAttribute("msg_erro") != null) {
-            String msg = (String) request.getAttribute("msg_erro");
-    %>
-    <p><%= msg%>
-    </p>
-    <hr>
-    <%
-        }
-    %>
+    <br><br>
+   
     <form action="UsuarioControle">
         <input type="hidden" name="op" value="AUTENTICAR">
         <label for="matricula">Matricula: </label><br>

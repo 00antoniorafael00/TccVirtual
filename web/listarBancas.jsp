@@ -14,6 +14,7 @@
         <table border="1">
             <tr>
                 <th>Título do Trabalho</th>
+                <th>Curso</th>
                 <th>Autor</th>
                 <th>Modalidade</th>
                 <th>Data</th>
@@ -36,6 +37,8 @@
 
                 <td><%= banca.getTcc().getTitulo() %>
                 </td>
+                <td><%= banca.getTcc().getAutor().getCurso().getNome() %>
+                </td>
                 <td><%= banca.getTcc().getAutor().getNome() %>
                 </td>
                 <td><%= banca.getModalidadeBanca() %>
@@ -48,9 +51,9 @@
                 </td>  
                 <td>
                     
-                <%  if (banca.getSituacao() == 'A') {
+                <%  if (banca.getSituacao() == 'A') {                                   // se situacao da banca for “Em Analise” e o professor logado for um avaliador
                         for (Professor professor : banca.getProfessoresBanca()) {
-                            if (professor.getMatricula() == usuario.getMatricula()){ 
+                            if (professor.getMatricula() == usuario.getMatricula()){   // se for gera link para Aprovar Participação
                 %>                                                         
                             <a href="BancaControle?idbanca=<%=banca.getId()%>&op=APROVACAO">Aprovar Participação</a>
                             

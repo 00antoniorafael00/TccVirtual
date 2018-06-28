@@ -59,9 +59,9 @@ public class UsuarioControle extends HttpServlet {
             String senha = request.getParameter("senha");
             
             usuario = new Usuario();
-            usuario = usuario.autenticar(matricula, senha);
+            usuario = usuario.autenticar(matricula, senha);     // # verificar existencia no banco
             
-            if (usuario != null) {
+            if (usuario != null) {      // se receber usuario do banco coloca o usuario como atributo da sessao
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", usuario);
                 

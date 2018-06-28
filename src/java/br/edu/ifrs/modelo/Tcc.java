@@ -133,7 +133,7 @@ public class Tcc {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs;
-        Tcc t = new Tcc();
+        Tcc tcc = new Tcc();
         
         try {       
 
@@ -148,23 +148,23 @@ public class Tcc {
 
             if (rs.next()) {
                                 
-                t.setId(rs.getInt("id"));
-                t.setTitulo(rs.getString("titulo"));
-                t.setPalavrasChaves(rs.getString("palavras_chaves"));
-                t.setAreaPrincipal(rs.getString("area_principal"));
-                t.setAreaSecundaria(rs.getString("area_secundaria"));
-                t.setResumo(rs.getString("resumo"));
-                t.setSituacao(rs.getString("situacao").charAt(0));
-                t.setVersaoFinal(rs.getBoolean("versao_final"));
-                t.setVersaoBanca(rs.getBoolean("versao_banca"));
+                tcc.setId(rs.getInt("id"));
+                tcc.setTitulo(rs.getString("titulo"));
+                tcc.setPalavrasChaves(rs.getString("palavras_chaves"));
+                tcc.setAreaPrincipal(rs.getString("area_principal"));
+                tcc.setAreaSecundaria(rs.getString("area_secundaria"));
+                tcc.setResumo(rs.getString("resumo"));
+                tcc.setSituacao(rs.getString("situacao").charAt(0));
+                tcc.setVersaoFinal(rs.getBoolean("versao_final"));
+                tcc.setVersaoBanca(rs.getBoolean("versao_banca"));
                 
-                Usuario autor = new Usuario();                
-                autor = autor.pesquisar(rs.getInt("estudante")); 
-                t.setAutor( new Estudante(autor) );  
+                Usuario estudante = new Usuario();                
+                estudante = estudante.pesquisar(rs.getInt("estudante"));        // metodo retorna estudante do tcc pela matricula
+                tcc.setAutor(new Estudante(estudante) );  
                 
                 Usuario orientador = new Usuario();                
-                orientador = orientador.pesquisar(rs.getInt("orientador")); 
-                t.setOrientador( new Orientador( new Professor(orientador) ) );
+                orientador = orientador.pesquisar(rs.getInt("orientador"));  // metodo retorna professor orientador do tcc pela matrcula
+                tcc.setOrientador( new Orientador( new Professor(orientador) ) );
                                 
                 
                 
@@ -177,7 +177,7 @@ public class Tcc {
             if (pstmt != null) pstmt.close();
             if (con != null) con.close();
         }
-        return t;
+        return tcc;
     }
 
  

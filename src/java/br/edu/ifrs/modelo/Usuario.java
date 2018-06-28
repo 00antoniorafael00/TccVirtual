@@ -161,10 +161,10 @@ public class Usuario {
                     u.setObservacoes(rs.getString("observacoes"));
 
                     c = new Curso();
-                    c = c.consultar(rs.getInt("id_curso"));                    
+                    c = c.consultar(rs.getInt("id_curso")); // # chama metodo no modelo Curso.java que retorna o curso apartir do id              
                     u.setCurso(c);
                     
-                    perfil = rs.getString("perfil");
+                    perfil = rs.getString("perfil");            // pega o perfil com string
                     
                    
             
@@ -176,7 +176,7 @@ public class Usuario {
                 con.close();
             }
         
-            if(perfil.equalsIgnoreCase("ADMINISTRADOR"))
+            if(perfil.equalsIgnoreCase("ADMINISTRADOR"))            // conforme a string de perfil retorna a classe filha com o usuario obtido do banco dentro
                 return new Administrador(u);
             else if (perfil.equalsIgnoreCase("PROFESSOR"))
                 return new Professor(u);
@@ -196,8 +196,7 @@ public class Usuario {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        Usuario u = null;
-        String perfil = "";
+        Usuario usuario = null;
         Curso c = null;
         try {
            
@@ -211,25 +210,25 @@ public class Usuario {
                
                 rs = pstmt.executeQuery();
                 if (rs.next()) {
-                    u = new Usuario();
+                    usuario = new Usuario();
 
-                    u.setMatricula(rs.getInt("matricula"));
-                    u.setNome(rs.getString("nome"));
-                    u.setSexo(rs.getString("sexo").charAt(0));
-                    u.setEnderecoResidencial(rs.getString("endereco_residencial"));
-                    u.setEmail(rs.getString("email"));
-                    u.setTelefoneResidencial(rs.getString("telefone_residencial"));
-                    u.setTelefoneProfissional(rs.getString("telefone_profissional"));
-                    u.setTelefoneCelular(rs.getString("telefone_celular"));
-//                    u.setSenha(rs.getString("senha"));
-                    u.setSituacao(rs.getString("situacao").charAt(0));
-                    u.setObservacoes(rs.getString("observacoes"));
+                    usuario.setMatricula(rs.getInt("matricula"));
+                    usuario.setNome(rs.getString("nome"));
+                    usuario.setSexo(rs.getString("sexo").charAt(0));
+                    usuario.setEnderecoResidencial(rs.getString("endereco_residencial"));
+                    usuario.setEmail(rs.getString("email"));
+                    usuario.setTelefoneResidencial(rs.getString("telefone_residencial"));
+                    usuario.setTelefoneProfissional(rs.getString("telefone_profissional"));
+                    usuario.setTelefoneCelular(rs.getString("telefone_celular"));
+//                    usuario.setSenha(rs.getString("senha"));
+                    usuario.setSituacao(rs.getString("situacao").charAt(0));
+                    usuario.setObservacoes(rs.getString("observacoes"));
 
                     c = new Curso();
                     c = c.consultar(rs.getInt("id_curso"));                    
-                    u.setCurso(c);
+                    usuario.setCurso(c);
                     
-                    perfil = rs.getString("perfil");
+                   
                     
                    
             
@@ -242,7 +241,7 @@ public class Usuario {
             }
         
 
-                return u;
+                return usuario;
        
 
     }
