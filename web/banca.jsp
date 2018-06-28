@@ -14,7 +14,7 @@
         <%
             if (usuario instanceof Administrador || usuario instanceof Coordenador){
         %>
-            <p><a href="#">Cadastrar Banca</a></p>
+            <p><a href="cadastrarBanca.jsp">Cadastrar Banca</a></p>
         <%
         }
         %>
