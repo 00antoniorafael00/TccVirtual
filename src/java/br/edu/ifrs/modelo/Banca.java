@@ -347,7 +347,7 @@ public class Banca {
         
         
         if (!participacoes.contains(false)){            // Se todos avaliadores aprovaram sua participação (nao existir nenhum false na lista)
-           atualizaSituacao (banca);    // metodo que atualiza a situacao da banca como confirmada
+           atualizaSituacao (banca);    // # metodo que atualiza a situacao da banca como confirmada
         }
 
        
