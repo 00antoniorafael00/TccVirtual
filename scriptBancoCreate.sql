@@ -109,7 +109,6 @@ insert into avaliadores_banca values (2, 1234568, 'Bal bla bla', '2018-07-21', '
 
 
 
-use tcc_virtual;
-select * from avaliadores_banca where banca =1;
-select * from bancas;
 
+insert into tccs (titulo, palavras_chaves, area_principal, area_secundaria, resumo, situacao, estudante, orientador) 
+values ('Socorro!', 'Redes de computadores, medo', 'Ciências Exatas e da Terra', 'Computação', 'Bla bla bla', 'A', 10019089, 1234569);
