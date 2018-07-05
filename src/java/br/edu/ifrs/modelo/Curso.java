@@ -5,6 +5,8 @@ import br.edu.ifrs.util.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Curso {
@@ -92,6 +94,45 @@ public class Curso {
         
         return c;   //retorna curso
     }
+    
+    public static Curso[] listar () throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        List<Curso> cursos = new ArrayList();
+        
+        try {
+            try {
+                con = Conexao.abrirConexao();
+
+                
+                pstmt = con.prepareStatement("select * from cursos");                
+            
+                rs = pstmt.executeQuery();
+                
+                while (rs.next()) {
+                    Curso c = new Curso();
+                    c.setId(rs.getInt("id"));
+                    c.setNome(rs.getString("nome"));
+                    c.setDescricao(rs.getString("descricao"));
+                    c.setPeriodoIntegralizacao(rs.getInt("periodo_integralizacao"));
+                    c.setCargaHoraria(rs.getInt("carga_horaria"));
+                    c.setSituacao(rs.getString("situacao").charAt(0));   
+                    cursos.add(c);
+                                        
+                }
+            } catch (Exception e) {
+                throw new Exception("Falha ao consultar o Banco de Dados.<br><!--" + e.getMessage() + "-->");
+            } finally {
+                pstmt.close();
+                con.close();
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+        
+        return cursos.toArray(new Curso[0]);
+    }  
     
        
 }

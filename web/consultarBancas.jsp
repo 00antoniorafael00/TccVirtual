@@ -1,3 +1,4 @@
+<%@page import="br.edu.ifrs.modelo.Curso"%>
 <%@page import="br.edu.ifrs.modelo.Professor"%>
 <%@page import="br.edu.ifrs.modelo.Coordenador"%>
 <%@page import="br.edu.ifrs.modelo.Administrador"%>
@@ -15,9 +16,22 @@
             <input type="hidden" name="op" value="CONSULTAR">
             <label for="titulo">Titulo: </label><br>
             <input type="text" name="titulotcc" id="titulotcc" value=""><br><br>
-            <label for="curso">Curso: </label><br>
-            <input type="text" name="curso" id="curso" value=""><br><br>
             
+            <label for="curso">Curso: </label><br>            
+            <select name="curso" id="curso">
+                <option value="">-- Selecione um curso --</option>
+                <%
+                    Curso[] cursos = (Curso[]) request.getAttribute("cursos");
+                    for (Curso curso : cursos) {
+                %>
+                <option value="<%=curso.getId() %>"><%=curso.getNome() %>
+                </option>
+                <%
+                    }
+                %>
+            </select>
+            
+            <br><br>           
             
             <input class="button" type="submit" value="Consultar">
             

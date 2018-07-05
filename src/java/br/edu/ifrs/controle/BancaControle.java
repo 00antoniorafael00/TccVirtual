@@ -6,6 +6,7 @@
 package br.edu.ifrs.controle;
 
 import br.edu.ifrs.modelo.Banca;
+import br.edu.ifrs.modelo.Curso;
 import br.edu.ifrs.modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,6 +41,7 @@ public class BancaControle extends HttpServlet {
             
 
         if(op.equals("CADASTRAR")) cadastrar(request, response);
+        else if(op.equals("FORMCONSULTAR")) formularioConsultar(request, response);
         else if(op.equals("CONSULTAR")) consultar(request, response);
         else if(op.equals("APROVACAO")) formularioAprovacao(request, response);
         else if(op.equals("APROVAR")) aprovar(request, response);
@@ -60,27 +62,60 @@ public class BancaControle extends HttpServlet {
         throws ServletException, IOException {
     }
     
+    protected void formularioConsultar(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        try {
+
+            Curso[] cursos = null; 
+            Curso c = new Curso();
+            
+            cursos = c.listar();
+    
+            
+            request.setAttribute("cursos", cursos);
+
+            RequestDispatcher r = request.getRequestDispatcher("consultarBancas.jsp");
+
+            r.forward(request, response);
+
+
+        } catch (Exception e) {
+            request.setAttribute("msg_erro", e.getMessage());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("erro.jsp");
+            dispatcher.forward(request, response);
+        }
+
+    }
+    
     protected void consultar(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         try {
 
-            Banca[] bcs = null;            
+             Banca[] bcs = null;            
 
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             String titulo = request.getParameter("titulotcc");
-            String curso = request.getParameter("curso");
+            int curso = 0;
+            
+            if (!request.getParameter("curso").isEmpty()){
+                curso = Integer.valueOf(request.getParameter("curso"));
+            }
 
             Banca b = new Banca();
-//            if (!titulo.isEmpty()){
-                bcs = b.consultar(titulo, null);        // # metodo consulta no banco de dados a banca por titulo
-//            } else {
-//                bcs = b.consultar(null, curso);
-//            }
+            
+            if (!titulo.isEmpty()){
+                bcs = b.consultar(usuario, titulo, curso);  // # metodo consulta no banco de dados a banca - por titulo    
+                
+            } else {
+                bcs = b.consultar(usuario, null, curso); // # metodo consulta no banco de dados a banca - por curso 
+            }
 //            
             request.setAttribute("bancas", bcs);
 
             RequestDispatcher r = request.getRequestDispatcher("listarBancas.jsp");
 
             r.forward(request, response);
+
 
 
         } catch (Exception e) {
