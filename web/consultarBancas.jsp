@@ -12,7 +12,7 @@
         if (usuario instanceof Administrador || usuario instanceof Professor){
     %>
         <h1>Consultar Banca</h1> <br/>
-        <form action="BancaControle">        
+        <form action="BancaControle" onsubmit="return validaConsulta()">        
             <input type="hidden" name="op" value="CONSULTAR">
             <label for="titulo">Titulo: </label><br>
             <input type="text" name="titulotcc" id="titulotcc" value=""><br><br>
