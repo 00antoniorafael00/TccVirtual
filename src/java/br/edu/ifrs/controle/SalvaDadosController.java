@@ -5,7 +5,7 @@
  */
 package br.edu.ifrs.controle;
 
-import br.edu.ifrs.util.GenericoDAO;
+import br.edu.ifrs.modelo.GenericoDAO;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

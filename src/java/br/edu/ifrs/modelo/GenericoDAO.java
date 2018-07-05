@@ -3,12 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifrs.util;
+package br.edu.ifrs.modelo;
 
-import br.edu.ifrs.modelo.Curso;
-import br.edu.ifrs.modelo.Professor;
-import br.edu.ifrs.modelo.Tcc;
-import br.edu.ifrs.modelo.Usuario;
 import br.edu.ifrs.util.Conexao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -149,7 +145,7 @@ public class GenericoDAO extends Conexao {
         ResultSet rs = null;
         Curso c = null;
         try {
-            pstmt = abrirConexao().prepareStatement("SELECT * FROM tcc_virtual.usuarios Where perfil='PROFESSOR';");
+            pstmt = abrirConexao().prepareStatement("SELECT * FROM tcc_virtual.usuarios Where perfil='PROFESSOR' OR perfil='COORDENADOR';");
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 Usuario u = new Usuario();

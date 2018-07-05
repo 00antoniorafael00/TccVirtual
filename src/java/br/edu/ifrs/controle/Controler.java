@@ -6,7 +6,7 @@
 package br.edu.ifrs.controle;
 
 import br.edu.ifrs.modelo.Tcc;
-import br.edu.ifrs.util.GenericoDAO;
+import br.edu.ifrs.modelo.GenericoDAO;
 import br.edu.ifrs.modelo.Professor;
 import java.io.IOException;
 import java.util.ArrayList;
